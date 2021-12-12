@@ -1,44 +1,24 @@
-import React, { Component } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle  } from "reactstrap";
-import DishDetail from './DishDetailComponent';
+import React from "react";
+import { Card, CardImg, CardImgOverlay, CardTitle  } from "reactstrap";
 
-class Menu extends Component{
+       //function 1 as functional component
+    function RenderMenuItem({dish, onClick }){
+        return(
+            <Card onClick={() => onClick(dish.id)} >
 
-    constructor(props){
-        super(props);
-
-        // stores iproperties of this component
-        this.state = {
-            selectedDish: null
-        };
-
-        console.log('Menu component constructed');
-        
+            <CardImg width="100%" src={ dish.image } alt={ dish.name } />
+            <CardImgOverlay>
+                <CardTitle> { dish.name }</CardTitle>
+            </CardImgOverlay>
+        </Card>      
+        );
     }
-
-    onDishSelect(dish){
-
-        this.setState({
-            selectedDish: dish
-        });
-
-    }
-
-
-
-    render(){
-        console.log('renders menu component');
-        
-        const menu = this.props.dishes.map((dish) => {
+        //function 2 
+    const Menu = (props) => {
+        const menu = props.dishes.map((dish) => {
             return (
                 <div key={ dish.id } className="col-12 col-md-5 m-1">    
-                    <Card onClick={ () => this.onDishSelect( dish ) } >
-
-                        <CardImg width="100%" src={ dish.image } alt={ dish.name } />
-                        <CardImgOverlay>
-                            <CardTitle> { dish.name }</CardTitle>
-                        </CardImgOverlay>
-                    </Card>                
+                      <RenderMenuItem dish={dish} onClick={props.onClick}></RenderMenuItem>      
                 </div>
             );
         });
@@ -47,19 +27,11 @@ class Menu extends Component{
             <div className="container">
                 <div className="row">
                     { menu }
-                </div>
-
-                <DishDetail dish={this.state.selectedDish} />
-                
-
+                </div>   
             </div>
         );
     }
+   
 
-    componentDidMount(){
-        console.log('Menu component componentDidMounbt is invoked');
-        
-    }
-}
 
 export default Menu;
